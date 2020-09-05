@@ -38,21 +38,20 @@ def init_uniform(a):
 
 def relu(m):
     """Implements ReLU activation function"""
-    return np.maximum(0, m)
+    return np.array([np.maximum(x, 0) for x in m])
 
 
 def get_random_batch(batches_train, batch_size):
     """Outputs random batch of batch_size"""
-    return batches_train[np.random.choice(batches_train.shape[0], batch_size, replace=False), :]
+    return batches_train[np.random.choice(batches_train.shape[0], batch_size, replace=False), :] / 255
 
 
 def get_loss(Y_batch, X_batch_train):
     """Claculates sum squared loss"""
-    pass
+    return np.sum((Y_batch - X_batch_train) ** 2)
 
 
 def multiply_matrixes(A, B):
-
     result = np.zeros((A.shape[0], B.shape[1]))
     # iterating by row of A
     for i in range(len(A)):
@@ -65,3 +64,8 @@ def multiply_matrixes(A, B):
                 result[i][j] += A[i][k] * B[k][j]
 
     return result
+
+
+def relu_derivative(a):
+    a[a >= 0] = 0
+    return a
